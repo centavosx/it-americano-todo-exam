@@ -6,6 +6,7 @@ import { CreateUserDto, LoginDto } from '../dto';
 import { Auth, User } from '../../../decorators';
 import { User as UserEntity } from '../../../entities';
 import { LoginResponseDto } from '../dto/login-response.dto';
+import { Throttle } from '@nestjs/throttler';
 
 @Controller('user')
 export class UserController {
@@ -25,7 +26,6 @@ export class UserController {
     return await this.userService.getUser(userId);
   }
 
-  @Auth()
   @Post()
   public async createUser(@Body() data: CreateUserDto): Promise<UserEntity> {
     return await this.userService.createUser(data);
@@ -37,6 +37,7 @@ export class UserController {
     return await this.userService.deleteUser(id);
   }
 
+  @Throttle(3, 15 * 60)
   @Post('/login')
   public async loginUser(@Body() data: LoginDto): Promise<LoginResponseDto> {
     return await this.userService.loginUser(data);
