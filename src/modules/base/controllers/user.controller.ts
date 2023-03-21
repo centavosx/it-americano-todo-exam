@@ -6,7 +6,6 @@ import { CreateUserDto, LoginDto } from '../dto';
 import { Auth, User } from '../../../decorators';
 import { User as UserEntity } from '../../../entities';
 import { LoginResponseDto } from '../dto/login-response.dto';
-import { Throttle } from '@nestjs/throttler';
 
 @Controller('user')
 export class UserController {

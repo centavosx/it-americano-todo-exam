@@ -26,14 +26,19 @@ export class AuthMiddleware implements NestMiddleware {
 
     if (!!auth && auth[0] === 'Bearer') {
       const token = auth[1];
-      const userFromToken = await this.tokenService.verifyToken(token, false);
+      const userFromToken = await this.tokenService.verifyToken(
+        token,
+        false,
+        true,
+      );
 
-      const user = await this.userRepository.findOne({
-        where: { id: userFromToken.id },
-      });
+      if (!!userFromToken) {
+        const user = await this.userRepository.findOne({
+          where: { id: userFromToken.id },
+        });
 
-      if (!user) throw new UnauthorizedException('Unauthorized');
-      req.user = user;
+        req.user = user;
+      }
     }
     return next();
   }

@@ -23,7 +23,11 @@ export class TokenService {
     });
   }
 
-  public async verifyToken(token: string, isRefresh: boolean): Promise<User> {
+  public async verifyToken(
+    token: string,
+    isRefresh: boolean,
+    dontThrowError?: boolean,
+  ): Promise<User | null> {
     try {
       const decoded = jwt.verify(
         token,
@@ -33,6 +37,7 @@ export class TokenService {
       );
       return decoded as User;
     } catch {
+      if (dontThrowError) return null;
       throw new UnauthorizedException('Unauthorized');
     }
   }
