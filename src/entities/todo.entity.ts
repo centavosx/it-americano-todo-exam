@@ -13,10 +13,10 @@ export class Todo {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ nullable: true })
   name: string | null;
 
-  @Column()
+  @Column({ nullable: true })
   description: string | null;
 
   @CreateDateColumn()

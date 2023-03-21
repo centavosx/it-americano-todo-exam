@@ -30,7 +30,6 @@ export class AuthMiddleware implements NestMiddleware {
 
       const user = await this.userRepository.findOne({
         where: { id: userFromToken.id },
-        relations: ['roles'],
       });
 
       if (!user) throw new UnauthorizedException('Unauthorized');
@@ -66,7 +65,6 @@ export class RefreshMiddleware implements NestMiddleware {
 
       const user = await this.userRepository.findOne({
         where: { id: userFromToken.id },
-        relations: ['roles'],
       });
 
       if (!user) throw new UnauthorizedException('Unauthorized');
