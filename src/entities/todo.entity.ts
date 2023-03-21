@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -24,6 +25,7 @@ export class Todo {
   @UpdateDateColumn()
   modified: Date;
 
+  @Exclude()
   @DeleteDateColumn()
   deleted: Date;
 }
