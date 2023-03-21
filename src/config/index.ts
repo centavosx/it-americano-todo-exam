@@ -1,12 +1,17 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
+import * as dotenv from 'dotenv';
+
+dotenv.config({
+  path: '.development.env',
+});
 
 export const dataSourceOptions: DataSourceOptions = {
   type: 'postgres',
-  host: 'satao.db.elephantsql.com',
-  port: 5432,
-  username: 'iqmqkoox',
-  password: '9-IfwsiLOo-BY2kMYuXpKNDDsYeXNm3m',
-  database: 'iqmqkoox',
+  host: process.env.DB_HOST,
+  port: parseInt(process.env.DB_PORT),
+  username: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.NAME,
   entities: ['dist/entities/*.js'],
   migrations: ['dist/migrations/*.js'],
 };
