@@ -33,6 +33,6 @@ export class User {
   modified: Date;
 
   @Exclude()
-  @DeleteDateColumn({ nullable: true, default: null })
-  deleted: Date | null;
+  @DeleteDateColumn()
+  deleted: Date;
 }
