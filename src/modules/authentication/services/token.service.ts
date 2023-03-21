@@ -11,19 +11,19 @@ export class TokenService {
     private readonly tokenRepository: Repository<Token>,
   ) {}
 
-  public async createAccessToken(data: User) {
+  public async createAccessToken(data: User): Promise<string> {
     return jwt.sign({ ...data }, process.env.ACCESS_KEY as string, {
       expiresIn: '15m',
     });
   }
 
-  public async createRefreshToken(data: User) {
+  public async createRefreshToken(data: User): Promise<string> {
     return jwt.sign({ ...data }, process.env.REFRESH_KEY as string, {
       expiresIn: '168h',
     });
   }
 
-  public async verifyToken(token: string, isRefresh: boolean) {
+  public async verifyToken(token: string, isRefresh: boolean): Promise<User> {
     try {
       const decoded = jwt.verify(
         token,
@@ -37,7 +37,7 @@ export class TokenService {
     }
   }
 
-  public async whitelistToken(token: string, id: string) {
+  public async whitelistToken(token: string, id: string): Promise<Token> {
     const date = new Date();
     date.setDate(date.getDate() + 7);
     const newToken = new Token();
@@ -47,23 +47,25 @@ export class TokenService {
     return await this.tokenRepository.save(newToken);
   }
 
-  public async unlistToken(token: string, userId: string) {
-    return await this.tokenRepository.delete({
+  public async unlistToken(token: string, userId: string): Promise<void> {
+    await this.tokenRepository.delete({
       tokenId: token,
       userId: userId,
     });
+    return;
   }
 
-  public async unlistUserIds(ids: string[]) {
-    return await this.tokenRepository
+  public async unlistUserIds(ids: string[]): Promise<void> {
+    await this.tokenRepository
       .createQueryBuilder('token')
       .leftJoin('token.user', 'user')
       .where(`user.id IN (:...ids)`, { ids })
       .delete()
       .execute();
+    return;
   }
 
-  public async ifWhiteListed(token: string, userId: string) {
+  public async ifWhiteListed(token: string, userId: string): Promise<boolean> {
     try {
       const verify = await this.tokenRepository.findOneOrFail({
         where: {

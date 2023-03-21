@@ -17,7 +17,11 @@ export class AuthMiddleware implements NestMiddleware {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async use(req: Request & { user: User }, _: Response, next: NextFunction) {
+  async use(
+    req: Request & { user: User },
+    _: Response,
+    next: NextFunction,
+  ): Promise<void> {
     const auth = req.headers['authorization']?.split(' ');
 
     if (!!auth && auth[0] === 'Bearer') {
@@ -48,7 +52,7 @@ export class RefreshMiddleware implements NestMiddleware {
     req: Request & { user: User; token: string },
     _: Response,
     next: NextFunction,
-  ) {
+  ): Promise<void> {
     const auth = req.headers['authorization']?.split(' ');
 
     if (!!auth && auth[0] === 'Bearer') {

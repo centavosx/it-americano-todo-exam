@@ -19,7 +19,7 @@ export class UserService {
     private readonly tokenService: TokenService,
   ) {}
 
-  public async getUser(id: string) {
+  public async getUser(id: string): Promise<User> {
     try {
       return await this.userRepository.findOneOrFail({ where: { id } });
     } catch {
@@ -27,11 +27,15 @@ export class UserService {
     }
   }
 
-  public async getAllUser() {
+  public async getAllUser(): Promise<User[]> {
     return await this.userRepository.find();
   }
 
-  public async createUser({ password, email, ...rest }: CreateUserDto) {
+  public async createUser({
+    password,
+    email,
+    ...rest
+  }: CreateUserDto): Promise<User> {
     const user = await this.userRepository.findOne({
       where: { email },
       withDeleted: true,
@@ -49,7 +53,7 @@ export class UserService {
     return await this.userRepository.save(newUser);
   }
 
-  public async deleteUser(id: string) {
+  public async deleteUser(id: string): Promise<void> {
     await this.userRepository.softDelete(id);
     return;
   }

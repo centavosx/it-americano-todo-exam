@@ -10,7 +10,7 @@ export class TodoService {
     @InjectRepository(Todo) private readonly todoRepository: Repository<Todo>,
   ) {}
 
-  public async getTodo(id: string) {
+  public async getTodo(id: string): Promise<Todo> {
     try {
       return await this.todoRepository.findOneOrFail({ where: { id } });
     } catch {
@@ -18,11 +18,11 @@ export class TodoService {
     }
   }
 
-  public async getAllTodos() {
+  public async getAllTodos(): Promise<Todo[]> {
     return await this.todoRepository.find();
   }
 
-  public async createTodo(data: TodoDto) {
+  public async createTodo(data: TodoDto): Promise<Todo> {
     let newTodo = new Todo();
     newTodo = {
       ...newTodo,
@@ -31,12 +31,12 @@ export class TodoService {
     return await this.todoRepository.save(newTodo);
   }
 
-  public async deleteTodo(id: string) {
+  public async deleteTodo(id: string): Promise<void> {
     await this.todoRepository.softDelete(id);
     return;
   }
 
-  public async updateTodo(id: string, data: TodoDto) {
+  public async updateTodo(id: string, data: TodoDto): Promise<Todo> {
     let todoData = await this.todoRepository.findOne({ where: { id } });
     if (!todoData) throw new NotFoundException('Todo is not found');
     todoData = { ...todoData, ...data };

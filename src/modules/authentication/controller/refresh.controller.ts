@@ -2,6 +2,7 @@ import { TokenService } from '../services/token.service';
 import { Controller, Get, UnauthorizedException } from '@nestjs/common';
 import { User, Token, Auth } from '../../../decorators';
 import { User as UserEntity } from '../../../entities';
+import { LoginResponseDto } from '../../../modules/base/dto/login-response.dto';
 
 @Controller()
 export class RefreshController {
@@ -12,7 +13,7 @@ export class RefreshController {
   public async refreshToken(
     @User() user: UserEntity | undefined,
     @Token() token: string | undefined,
-  ) {
+  ): Promise<LoginResponseDto> {
     if (!user) throw new UnauthorizedException('Unauthorized');
     const tokens = await this.tokenService.generateTokens(user);
     await this.tokenService.whitelistToken(tokens.refreshToken, user.id);
