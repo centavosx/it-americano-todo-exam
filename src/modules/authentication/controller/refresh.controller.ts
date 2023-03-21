@@ -1,12 +1,13 @@
 import { TokenService } from '../services/token.service';
 import { Controller, Get, UnauthorizedException } from '@nestjs/common';
-import { User, Token } from '../../../decorators';
+import { User, Token, Auth } from '../../../decorators';
 import { User as UserEntity } from '../../../entities';
 
 @Controller()
 export class RefreshController {
   constructor(private readonly tokenService: TokenService) {}
 
+  @Auth()
   @Get('/refresh')
   public async refreshToken(
     @User() user: UserEntity | undefined,

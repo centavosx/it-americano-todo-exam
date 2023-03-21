@@ -2,7 +2,7 @@ import { Body, Controller, Get, Post, Delete } from '@nestjs/common';
 import { Parameter } from '../../../helpers';
 import { Param } from '@nestjs/common/decorators';
 import { UserService } from '../services';
-import { CreateUserDto } from '../dto';
+import { CreateUserDto, LoginDto } from '../dto';
 import { Auth, User } from '../../../decorators';
 import { User as UserT } from '../../../entities';
 
@@ -27,8 +27,14 @@ export class UserController {
     return await this.userService.createUser(data);
   }
 
+  @Auth()
   @Delete(Parameter.id())
   public async deleteUser(@Param('id') id: string) {
     return await this.userService.deleteUser(id);
+  }
+
+  @Post('/login')
+  public async loginUser(@Body() data: LoginDto) {
+    return await this.userService.loginUser(data);
   }
 }
