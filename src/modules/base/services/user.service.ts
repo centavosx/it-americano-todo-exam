@@ -65,7 +65,7 @@ export class UserService {
     const user = await this.userRepository.findOne({ where: { email } });
     if (!user) throw new NotFoundException('User not found');
 
-    if (!(await ifMatched(user.password, password)))
+    if (!(await ifMatched(password, user.password)))
       throw new BadRequestException('Wrong password');
 
     const tokens = await this.tokenService.generateTokens(user);
