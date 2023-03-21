@@ -41,5 +41,5 @@ $ npm run start:prod
 
 ## Developed by Vincent Lennuel Llanto
 
-[LinkedIn](https://www.linkedin.com/in/vllanto/)
-[Github](https://github.com/centavosx)
+- [LinkedIn](https://www.linkedin.com/in/vllanto/)
+- [Github](https://github.com/centavosx)
