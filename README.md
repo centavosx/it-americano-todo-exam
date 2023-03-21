@@ -39,19 +39,6 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
 ## Developed by Vincent Lennuel Llanto
 
 [LinkedIn](https://www.linkedin.com/in/vllanto/)
