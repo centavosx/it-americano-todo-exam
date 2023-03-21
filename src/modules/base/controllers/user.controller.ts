@@ -37,7 +37,6 @@ export class UserController {
     return await this.userService.deleteUser(id);
   }
 
-  @Throttle(3, 15 * 60)
   @Post('/login')
   public async loginUser(@Body() data: LoginDto): Promise<LoginResponseDto> {
     return await this.userService.loginUser(data);
